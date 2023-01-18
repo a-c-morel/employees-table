@@ -1,13 +1,91 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+*,*:before,*:after {
+    -webkit-box-sizing:border-box;
+    box-sizing:border-box;
+    margin:0;
+    padding:0
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.employee-table__container {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
 }
+
+.employee-table__options {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+}
+
+.employees-table__page-number {
+    margin: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none
+}
+
+.employees-table__btn {
+    color: #93ad19;
+    background-color: #fff;
+    border: 2px solid #93ad19;
+    border-radius: 4px;
+    padding: 10px;
+    margin: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none
+}
+
+.employees-table__btn:hover {
+    background-color: #93ad19;
+    color: #fff;
+}
+
+.employee-table__container {
+    width: 100%;
+  }
+  
+  .employee-table__table-wrapper {
+    overflow-x: auto;
+  }
+  
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    color: black;
+  }
+  
+  th, td {
+    border: 1px solid #93ad19;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  th {
+    background-color: #93ad19;
+    color: white;
+  }
+
+  tr:nth-child(even) {
+    background-color: #93ad19;
+  }
+  
+  tr:nth-child(odd) {
+    background-color: #b4d8b4;
+  }
