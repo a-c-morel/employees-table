@@ -1,17 +1,22 @@
 import React, { useState } from 'react'
-import { headersArray, dataArray } from './mockData'
+
 import { FaRegArrowAltCircleDown } from "react-icons/fa";
 
-export default function EmployeesTable () {
+export default function EmployeesTable ({headersArray, dataArray}) {
 
   let myArray = dataArray.sort((a, b) => (a.firstName > b.firstName) ? 1 : -1)
 
   const defaultSelect = 10
+  //const defaultSort = dataArray.sort((a, b) => (a.firstName > b.firstName) ? 1 : -1)
+  const defaultSearch = ""
+  const defaultPage = 1
 
   const [userSelect, setUserSelect] = useState(defaultSelect)
-  const [currentPage, setCurrentPage] = useState(1)
-  const [searchValue, setSearchValue] = useState('')
-
+  //const [data, setData] = useState(defaultSort)
+  const [currentPage, setCurrentPage] = useState(defaultPage)
+  const [searchValue, setSearchValue] = useState(defaultSearch)
+  
+  //je divise la length de l'array par le nombre sélectionné par l'utilisateur, et j'arrondis à l'entier sup.
   const maxPage = Math.ceil(myArray.length / userSelect)
 
   const handlePerPageChange = (e) => {
@@ -31,6 +36,11 @@ export default function EmployeesTable () {
     }
   }
 
+  const handleSearch = (e) => {
+    setSearchValue(e.target.value)
+    setCurrentPage(1)
+}
+
   const filteredData = myArray.filter(data => 
     data.firstName.toLowerCase().includes(searchValue.toLowerCase()) ||
     data.lastName.toLowerCase().includes(searchValue.toLowerCase()) ||
@@ -42,13 +52,27 @@ export default function EmployeesTable () {
     data.state.toLowerCase().includes(searchValue.toLowerCase()) ||
     data.zipCode.toLowerCase().includes(searchValue.toLowerCase())
   )
-  const paginatedData = filteredData.slice((currentPage - 1) * userSelect, currentPage * userSelect)
+
+  /*on indique à partir de quel index jusqu'à quel autre index (exclus) on veut conserver les éléments du tableau:
+  exemple je suis sur la page 3 avec le defaultSelect,
+  ce serait donc filteredData.slice((3 - 1) * 10, 3 * 10)
+  c'est à dire filteredData.slice(20, 30) : de l'index 20 à l'index 30 exclus*/
+  let paginatedData = filteredData.slice((currentPage - 1) * userSelect, currentPage * userSelect)
 
   const sortAlphabetical = ( chosenHeader ) => {
-    console.log(chosenHeader.header)
     let myKey = headersArray.indexOf(chosenHeader.header)
-    console.log(myKey)
-    paginatedData.sort((a, b) => (a[myKey] > b[myKey]) ? 1 : -1)
+    paginatedData.sort(function(a, b) {
+      let firstValue = Object.values(a)[myKey].toUpperCase
+      let secondValue = Object.values(b)[myKey].toUpperCase
+      
+      if (firstValue < secondValue) {
+        return -1;
+      }
+      if (firstValue > secondValue) {
+        return 1;
+      }
+      return 0
+    })
   }
 
   return (
@@ -68,7 +92,7 @@ export default function EmployeesTable () {
               </div>
             <div>
             <label>Search:
-              <input type="search" value={searchValue} onChange={(e) => setSearchValue(e.target.value)} className="" placeholder="" aria-controls="employee-table"/>
+              <input type="search" value={searchValue} onChange={(e) => handleSearch(e)} className="" placeholder="" aria-controls="employee-table"/>
             </label>
           </div>
         </div>

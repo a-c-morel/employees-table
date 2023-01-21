@@ -2,7 +2,11 @@
     -webkit-box-sizing:border-box;
     box-sizing:border-box;
     margin:0;
-    padding:0
+    padding:0;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none
 }
 
 .employee-table__container {
@@ -31,10 +35,6 @@
     margin: 10px;
     font-size: 16px;
     font-weight: bold;
-    -webkit-user-select: none;
-       -moz-user-select: none;
-        -ms-user-select: none;
-            user-select: none
 }
 
 .employees-table__btn {
@@ -46,10 +46,6 @@
     margin: 10px;
     font-size: 16px;
     cursor: pointer;
-    -webkit-user-select: none;
-       -moz-user-select: none;
-        -ms-user-select: none;
-            user-select: none
 }
 
 .employees-table__btn:hover {
