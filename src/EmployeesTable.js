@@ -1,23 +1,21 @@
-import React, { useState } from 'react'
-
+import React, { useState, useEffect } from 'react'
 import { FaRegArrowAltCircleDown } from "react-icons/fa";
 
 export default function EmployeesTable ({headersArray, dataArray}) {
 
-  let myArray = dataArray.sort((a, b) => (a.firstName > b.firstName) ? 1 : -1)
-
+  const defaultData = [...dataArray]
   const defaultSelect = 10
-  //const defaultSort = dataArray.sort((a, b) => (a.firstName > b.firstName) ? 1 : -1)
   const defaultSearch = ""
   const defaultPage = 1
-
-  const [userSelect, setUserSelect] = useState(defaultSelect)
-  //const [data, setData] = useState(defaultSort)
-  const [currentPage, setCurrentPage] = useState(defaultPage)
-  const [searchValue, setSearchValue] = useState(defaultSearch)
+  const defaultSort = "First Name"
+  const defaultMaxPage = 1
   
-  //je divise la length de l'array par le nombre sélectionné par l'utilisateur, et j'arrondis à l'entier sup.
-  const maxPage = Math.ceil(myArray.length / userSelect)
+  const [filteredData, setFilteredData] = useState(defaultData)
+  const [userSelect, setUserSelect] = useState(defaultSelect)
+  const [searchValue, setSearchValue] = useState(defaultSearch)
+  const [currentPage, setCurrentPage] = useState(defaultPage)
+  const [sortBy, setSortBy] = useState(defaultSort)
+  const [maxPage, setMaxPage] = useState(defaultMaxPage)
 
   const handlePerPageChange = (e) => {
     setUserSelect(e.target.value)
@@ -31,6 +29,7 @@ export default function EmployeesTable ({headersArray, dataArray}) {
   }
 
   const handleNext = () => {
+    console.log(currentPage, maxPage)
     if (currentPage < maxPage) {
       setCurrentPage(currentPage + 1)
     }
@@ -39,41 +38,68 @@ export default function EmployeesTable ({headersArray, dataArray}) {
   const handleSearch = (e) => {
     setSearchValue(e.target.value)
     setCurrentPage(1)
-}
-
-  const filteredData = myArray.filter(data => 
-    data.firstName.toLowerCase().includes(searchValue.toLowerCase()) ||
-    data.lastName.toLowerCase().includes(searchValue.toLowerCase()) ||
-    data.startDate.toLowerCase().includes(searchValue.toLowerCase()) ||
-    data.department.toLowerCase().includes(searchValue.toLowerCase()) ||
-    data.dateOfBirth.toLowerCase().includes(searchValue.toLowerCase()) ||
-    data.street.toLowerCase().includes(searchValue.toLowerCase()) ||
-    data.city.toLowerCase().includes(searchValue.toLowerCase()) ||
-    data.state.toLowerCase().includes(searchValue.toLowerCase()) ||
-    data.zipCode.toLowerCase().includes(searchValue.toLowerCase())
-  )
-
-  /*on indique à partir de quel index jusqu'à quel autre index (exclus) on veut conserver les éléments du tableau:
-  exemple je suis sur la page 3 avec le defaultSelect,
-  ce serait donc filteredData.slice((3 - 1) * 10, 3 * 10)
-  c'est à dire filteredData.slice(20, 30) : de l'index 20 à l'index 30 exclus*/
-  let paginatedData = filteredData.slice((currentPage - 1) * userSelect, currentPage * userSelect)
-
-  const sortAlphabetical = ( chosenHeader ) => {
-    let myKey = headersArray.indexOf(chosenHeader.header)
-    paginatedData.sort(function(a, b) {
-      let firstValue = Object.values(a)[myKey].toUpperCase
-      let secondValue = Object.values(b)[myKey].toUpperCase
-      
-      if (firstValue < secondValue) {
-        return -1;
-      }
-      if (firstValue > secondValue) {
-        return 1;
-      }
-      return 0
-    })
   }
+
+  useEffect(() => {
+
+    const filterBySearch = (myData, myString) => {
+      if(!myString) {
+        return myData
+      }
+      const filteredBySearchResults = myData.filter(data => 
+        data.firstName.toLowerCase().includes(myString.toLowerCase()) ||
+        data.lastName.toLowerCase().includes(myString.toLowerCase()) ||
+        data.startDate.toLowerCase().includes(myString.toLowerCase()) ||
+        data.department.toLowerCase().includes(myString.toLowerCase()) ||
+        data.dateOfBirth.toLowerCase().includes(myString.toLowerCase()) ||
+        data.street.toLowerCase().includes(myString.toLowerCase()) ||
+        data.city.toLowerCase().includes(myString.toLowerCase()) ||
+        data.state.toLowerCase().includes(myString.toLowerCase()) ||
+        data.zipCode.toLowerCase().includes(myString.toLowerCase()))
+      return filteredBySearchResults
+    }
+
+    const paginatedBySelect = (myData, mySelect, myCurrentPage) => {
+      const paginatedBySelectResults = myData.slice((myCurrentPage - 1) * mySelect, myCurrentPage * mySelect)
+      return paginatedBySelectResults
+    }
+
+    /*const sortedByHeader = (myData, chosenHeader) => {
+      let myKey = headersArray.indexOf(chosenHeader.header)
+      const sortedByHeaderResults = myData.sort(function(a, b) {
+        let firstValue = Object.values(a)[myKey].toUpperCase
+        let secondValue = Object.values(b)[myKey].toUpperCase
+        
+        if (firstValue < secondValue) {
+          return -1;
+        }
+        if (firstValue > secondValue) {
+          return 1;
+        }
+        return 0
+      })
+      return sortedByHeaderResults
+    }*/
+
+    const determineMaxPage = (myLength, mySelect) => {
+      const myMaxPage = Math.ceil(myLength / mySelect)
+      console.log("my max page", myMaxPage)
+      return myMaxPage
+    }
+
+    let myMaxPage = determineMaxPage(dataArray.length, userSelect)
+    setMaxPage(myMaxPage)
+
+    let myFilteredData = filterBySearch(dataArray, searchValue)
+    console.log("after filter by search", myFilteredData)
+    myMaxPage = determineMaxPage(myFilteredData.length, userSelect)
+    setMaxPage(myMaxPage)
+    myFilteredData = paginatedBySelect(myFilteredData, userSelect, currentPage)
+    console.log("after paginating", myFilteredData)
+    //myFilteredData = sortedByHeader(myFilteredData, sortBy)
+    setFilteredData(myFilteredData)
+
+  }, [dataArray, searchValue, currentPage, userSelect])
 
   return (
     <div className="employee-table__container">
@@ -100,13 +126,13 @@ export default function EmployeesTable ({headersArray, dataArray}) {
           <thead>
             <tr>
               {headersArray.map((header, index) => {
-                  return <th key={header + index}>{header}< FaRegArrowAltCircleDown onClick={() => sortAlphabetical({header})} /></th>
+                  return <th key={header + index}>{header}< FaRegArrowAltCircleDown onClick={() => setSortBy({header})} /></th>
                 }
               )}
             </tr>
           </thead>
           <tbody>
-            {paginatedData.map((employee, index) => {
+            {filteredData.map((employee, index) => {
               return <tr key={employee.firstName + index}>
                 <td className='cell'>{employee.firstName}</td>
                 <td className='cell'>{employee.lastName}</td>
