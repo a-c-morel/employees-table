@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { FaRegArrowAltCircleDown } from "react-icons/fa";
+import { FaRegArrowAltCircleDown, FaRegArrowAltCircleUp } from "react-icons/fa"
 
 export default function EmployeesTable ({headersArray, dataArray}) {
 
@@ -7,8 +7,9 @@ export default function EmployeesTable ({headersArray, dataArray}) {
   const defaultSelect = 10
   const defaultSearch = ""
   const defaultPage = 1
-  const defaultSort = "First Name"
+  const defaultSort = 0
   const defaultMaxPage = 1
+  const defaultType = "alpha-order"
   
   const [filteredData, setFilteredData] = useState(defaultData)
   const [userSelect, setUserSelect] = useState(defaultSelect)
@@ -16,6 +17,7 @@ export default function EmployeesTable ({headersArray, dataArray}) {
   const [currentPage, setCurrentPage] = useState(defaultPage)
   const [sortBy, setSortBy] = useState(defaultSort)
   const [maxPage, setMaxPage] = useState(defaultMaxPage)
+  const [type, setType] = useState(defaultType)
 
   const handlePerPageChange = (e) => {
     setUserSelect(e.target.value)
@@ -40,6 +42,18 @@ export default function EmployeesTable ({headersArray, dataArray}) {
     setCurrentPage(1)
   }
 
+  const handleSortByDown = (myHeader) => {
+    const sortIndex = headersArray.indexOf(myHeader)
+    setSortBy(sortIndex)
+    setType("alpha-order")
+  }
+
+  const handleSortByUp = (myHeader) => {
+    const sortIndex = headersArray.indexOf(myHeader)
+    setSortBy(sortIndex)
+    setType("non-alpha-order")
+  }
+  
   useEffect(() => {
 
     const filterBySearch = (myData, myString) => {
@@ -64,22 +78,27 @@ export default function EmployeesTable ({headersArray, dataArray}) {
       return paginatedBySelectResults
     }
 
-    /*const sortedByHeader = (myData, chosenHeader) => {
-      let myKey = headersArray.indexOf(chosenHeader.header)
-      const sortedByHeaderResults = myData.sort(function(a, b) {
-        let firstValue = Object.values(a)[myKey].toUpperCase
-        let secondValue = Object.values(b)[myKey].toUpperCase
-        
-        if (firstValue < secondValue) {
-          return -1;
+    const sortedByHeader = (myData, chosenIndex, myType) => {
+        const sortedByHeaderResults = myData.sort(function(a, b) {
+          let firstValue = Object.values(a)[chosenIndex]
+          let secondValue = Object.values(b)[chosenIndex]
+          if (firstValue < secondValue) {
+            console.log(firstValue)
+            return -1;
+          }
+          if (firstValue > secondValue) {
+            console.log(firstValue)
+            return 1;
+          }
+          console.log(firstValue)
+          return 0
+        })
+        if (myType === "alpha-order") {
+          return sortedByHeaderResults
+        } else if (myType === "non-alpha-order") {
+          return sortedByHeaderResults.reverse()
         }
-        if (firstValue > secondValue) {
-          return 1;
-        }
-        return 0
-      })
-      return sortedByHeaderResults
-    }*/
+    }
 
     const determineMaxPage = (myLength, mySelect) => {
       const myMaxPage = Math.ceil(myLength / mySelect)
@@ -92,14 +111,15 @@ export default function EmployeesTable ({headersArray, dataArray}) {
 
     let myFilteredData = filterBySearch(dataArray, searchValue)
     console.log("after filter by search", myFilteredData)
+    myFilteredData = sortedByHeader(myFilteredData, sortBy, type)
+    console.log("after sorting by header", myFilteredData)
     myMaxPage = determineMaxPage(myFilteredData.length, userSelect)
     setMaxPage(myMaxPage)
     myFilteredData = paginatedBySelect(myFilteredData, userSelect, currentPage)
     console.log("after paginating", myFilteredData)
-    //myFilteredData = sortedByHeader(myFilteredData, sortBy)
     setFilteredData(myFilteredData)
 
-  }, [dataArray, searchValue, currentPage, userSelect])
+  }, [dataArray, searchValue, currentPage, userSelect, sortBy, headersArray, type])
 
   return (
     <div className="employee-table__container">
@@ -126,7 +146,7 @@ export default function EmployeesTable ({headersArray, dataArray}) {
           <thead>
             <tr>
               {headersArray.map((header, index) => {
-                  return <th key={header + index}>{header}< FaRegArrowAltCircleDown onClick={() => setSortBy({header})} /></th>
+                  return <th key={header + index}>{header}< FaRegArrowAltCircleDown onClick={() => handleSortByDown(header)} />< FaRegArrowAltCircleUp onClick={() => handleSortByUp(header)} /></th>
                 }
               )}
             </tr>
