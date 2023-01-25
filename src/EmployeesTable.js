@@ -78,19 +78,31 @@ export default function EmployeesTable ({headersArray, dataArray}) {
       return paginatedBySelectResults
     }
 
+    const testIsDate = (myString) => {
+      let myObject = new Date(myString)
+      if (Object.prototype.toString.call(myObject) === "[object Date]") {
+        if (isNaN(myObject)) {
+          return myString
+        } else {
+          return myObject
+        }
+      } else {
+        return myString
+      }
+    }
+
     const sortedByHeader = (myData, chosenIndex, myType) => {
         const sortedByHeaderResults = myData.sort(function(a, b) {
           let firstValue = Object.values(a)[chosenIndex]
           let secondValue = Object.values(b)[chosenIndex]
-          if (firstValue < secondValue) {
-            console.log(firstValue)
+          let testIsDateA = testIsDate(firstValue)
+          let testIsDateB = testIsDate(secondValue)
+          if (testIsDateA < testIsDateB) {
             return -1;
           }
-          if (firstValue > secondValue) {
-            console.log(firstValue)
+          if (testIsDateA > testIsDateB) {
             return 1;
           }
-          console.log(firstValue)
           return 0
         })
         if (myType === "alpha-order") {
@@ -111,12 +123,16 @@ export default function EmployeesTable ({headersArray, dataArray}) {
 
     let myFilteredData = filterBySearch(dataArray, searchValue)
     console.log("after filter by search", myFilteredData)
+
     myFilteredData = sortedByHeader(myFilteredData, sortBy, type)
     console.log("after sorting by header", myFilteredData)
+
     myMaxPage = determineMaxPage(myFilteredData.length, userSelect)
     setMaxPage(myMaxPage)
+
     myFilteredData = paginatedBySelect(myFilteredData, userSelect, currentPage)
     console.log("after paginating", myFilteredData)
+
     setFilteredData(myFilteredData)
 
   }, [dataArray, searchValue, currentPage, userSelect, sortBy, headersArray, type])
