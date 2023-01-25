@@ -1,3 +1,5 @@
+export const tableTitle = "Current Employees"
+
 export const headersArray= [
     'First Name',
     'Last Name',

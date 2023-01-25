@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { FaRegArrowAltCircleDown, FaRegArrowAltCircleUp } from "react-icons/fa"
 
-export default function EmployeesTable ({headersArray, dataArray}) {
+export default function PaginatedReactTable ({tableTitle, headersArray, dataArray}) {
 
   const defaultData = [...dataArray]
   const defaultSelect = 10
@@ -31,7 +31,6 @@ export default function EmployeesTable ({headersArray, dataArray}) {
   }
 
   const handleNext = () => {
-    console.log(currentPage, maxPage)
     if (currentPage < maxPage) {
       setCurrentPage(currentPage + 1)
     }
@@ -60,17 +59,11 @@ export default function EmployeesTable ({headersArray, dataArray}) {
       if(!myString) {
         return myData
       }
-      const filteredBySearchResults = myData.filter(data => 
-        data.firstName.toLowerCase().includes(myString.toLowerCase()) ||
-        data.lastName.toLowerCase().includes(myString.toLowerCase()) ||
-        data.startDate.toLowerCase().includes(myString.toLowerCase()) ||
-        data.department.toLowerCase().includes(myString.toLowerCase()) ||
-        data.dateOfBirth.toLowerCase().includes(myString.toLowerCase()) ||
-        data.street.toLowerCase().includes(myString.toLowerCase()) ||
-        data.city.toLowerCase().includes(myString.toLowerCase()) ||
-        data.state.toLowerCase().includes(myString.toLowerCase()) ||
-        data.zipCode.toLowerCase().includes(myString.toLowerCase()))
-      return filteredBySearchResults
+      return myData.filter(data => {
+        return Object.values(data).some(val => 
+          val.toString().toLowerCase().includes(myString.toLowerCase())
+        )
+      })
     }
 
     const paginatedBySelect = (myData, mySelect, myCurrentPage) => {
@@ -114,7 +107,6 @@ export default function EmployeesTable ({headersArray, dataArray}) {
 
     const determineMaxPage = (myLength, mySelect) => {
       const myMaxPage = Math.ceil(myLength / mySelect)
-      console.log("my max page", myMaxPage)
       return myMaxPage
     }
 
@@ -122,16 +114,13 @@ export default function EmployeesTable ({headersArray, dataArray}) {
     setMaxPage(myMaxPage)
 
     let myFilteredData = filterBySearch(dataArray, searchValue)
-    console.log("after filter by search", myFilteredData)
 
     myFilteredData = sortedByHeader(myFilteredData, sortBy, type)
-    console.log("after sorting by header", myFilteredData)
 
     myMaxPage = determineMaxPage(myFilteredData.length, userSelect)
     setMaxPage(myMaxPage)
 
     myFilteredData = paginatedBySelect(myFilteredData, userSelect, currentPage)
-    console.log("after paginating", myFilteredData)
 
     setFilteredData(myFilteredData)
 
@@ -139,7 +128,7 @@ export default function EmployeesTable ({headersArray, dataArray}) {
 
   return (
     <div className="employee-table__container">
-      <h1>Current Employees</h1>
+      <h1>{tableTitle}</h1>
       <div className="employee-table__table-wrapper">
         <div className="employee-table__options">
           <div>
@@ -168,18 +157,14 @@ export default function EmployeesTable ({headersArray, dataArray}) {
             </tr>
           </thead>
           <tbody>
-            {filteredData.map((employee, index) => {
-              return <tr key={employee.firstName + index}>
-                <td className='cell'>{employee.firstName}</td>
-                <td className='cell'>{employee.lastName}</td>
-                <td className='cell'>{employee.startDate}</td>
-                <td className='cell'>{employee.department}</td>
-                <td className='cell'>{employee.dateOfBirth}</td>
-                <td className='cell'>{employee.street}</td>
-                <td className='cell'>{employee.city}</td>
-                <td className='cell'>{employee.state}</td>
-                <td className='cell'>{employee.zipCode}</td>
-              </tr>
+            {filteredData.map((data, index) => {
+              return (
+                <tr key={index}>
+                  {Object.keys(data).map((key, index) => {
+                    return <td key={index} className='cell'>{data[key]}</td>
+                  })}
+                </tr>
+              )
             })}
           </tbody>
           </table>
