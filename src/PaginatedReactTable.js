@@ -127,10 +127,10 @@ export default function PaginatedReactTable ({tableTitle, headersArray, dataArra
   }, [dataArray, searchValue, currentPage, userSelect, sortBy, headersArray, type])
 
   return (
-    <div className="employee-table__container">
+    <div className="paginated-react-table__container">
       <h1>{tableTitle}</h1>
-      <div className="employee-table__table-wrapper">
-        <div className="employee-table__options">
+      <div className="paginated-react-table__table-wrapper">
+        <div className="paginated-react-table__options">
           <div>
             <label>Show
                 <select value={userSelect} onChange={handlePerPageChange}>
@@ -143,7 +143,7 @@ export default function PaginatedReactTable ({tableTitle, headersArray, dataArra
               </div>
             <div>
             <label>Search:
-              <input type="search" value={searchValue} onChange={(e) => handleSearch(e)} className="" placeholder="" aria-controls="employee-table"/>
+              <input type="search" value={searchValue} onChange={(e) => handleSearch(e)} className="" placeholder=""/>
             </label>
           </div>
         </div>
@@ -169,9 +169,9 @@ export default function PaginatedReactTable ({tableTitle, headersArray, dataArra
           </tbody>
           </table>
           <div>
-        <button className="employees-table__btn" onClick={handlePrevious}>Previous</button>
-        <span className="employees-table__page-number">{currentPage}</span>
-        <button className="employees-table__btn" onClick={handleNext}>Next</button>
+        <button className="paginated-react-table__btn" onClick={handlePrevious}>Previous</button>
+        <span className="paginated-react-table__page-number">{currentPage}</span>
+        <button className="paginated-react-table__btn" onClick={handleNext}>Next</button>
       </div>
     </div>
     </div>

@@ -9,7 +9,7 @@
             user-select: none
 }
 
-.employee-table__container {
+.paginated-react-table__container {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -22,7 +22,7 @@
             align-items: center;
 }
 
-.employee-table__options {
+.paginated-react-table__options {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -31,13 +31,13 @@
             justify-content: space-between;
 }
 
-.employees-table__page-number {
+.paginated-react-table__page-number {
     margin: 10px;
     font-size: 16px;
     font-weight: bold;
 }
 
-.employees-table__btn {
+.paginated-react-table__btn {
     color: #93ad19;
     background-color: #fff;
     border: 2px solid #93ad19;
@@ -48,16 +48,16 @@
     cursor: pointer;
 }
 
-.employees-table__btn:hover {
+.paginated-react-table__btn:hover {
     background-color: #93ad19;
     color: #fff;
 }
 
-.employee-table__container {
+.paginated-react-table__container {
     width: 100%;
   }
   
-  .employee-table__table-wrapper {
+  .paginated-react-table__table-wrapper {
     overflow-x: auto;
   }
   
