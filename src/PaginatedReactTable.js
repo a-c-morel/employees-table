@@ -60,6 +60,15 @@ export default function PaginatedReactTable ({tableTitle, headersArray, dataArra
     setSortBy(sortIndex)
     setType("non-alpha-order")
   }
+
+  const pages = [];
+  for (let i = 1; i <= maxPage; i++) {
+    if (currentPage === i) {
+      pages.push(<span className="paginated-react-table__page-number">{currentPage}</span>);
+    } else {
+      pages.push(<span>{i}</span>);
+    }
+  }
   
   useEffect(() => {
 
@@ -199,8 +208,8 @@ export default function PaginatedReactTable ({tableTitle, headersArray, dataArra
             </p>
             <div>
               <button className='paginated-react-table__btn' onClick={handlePrevious}>Previous</button>
-                <span className='paginated-react-table__page-number'>{currentPage}</span>
-                <button className='paginated-react-table__btn' onClick={handleNext}>Next</button>
+              {pages}
+              <button className='paginated-react-table__btn' onClick={handleNext}>Next</button>
             </div>
           </div>
           
