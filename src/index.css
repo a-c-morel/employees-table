@@ -31,10 +31,14 @@
             justify-content: space-between;
 }
 
-.paginated-react-table__page-number {
-    margin: 10px;
-    font-size: 16px;
-    font-weight: bold;
+.paginated-react-table__page-number, .paginated-react-table__page-number--current {
+  margin: 10px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.paginated-react-table__page-number--current {
+  font-weight: bold;
 }
 
 .paginated-react-table__btn {

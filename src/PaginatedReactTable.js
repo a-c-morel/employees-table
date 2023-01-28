@@ -62,11 +62,14 @@ export default function PaginatedReactTable ({tableTitle, headersArray, dataArra
   }
 
   const pages = [];
+  const handlePageClick = (page) => {
+    setCurrentPage(page);
+  }
   for (let i = 1; i <= maxPage; i++) {
     if (currentPage === i) {
-      pages.push(<span className="paginated-react-table__page-number">{currentPage}</span>);
+      pages.push(<span className="paginated-react-table__page-number--current" onClick={() => handlePageClick(i)}>{currentPage}</span>);
     } else {
-      pages.push(<span>{i}</span>);
+      pages.push(<span className="paginated-react-table__page-number" onClick={() => handlePageClick(i)}>{i}</span>);
     }
   }
   
