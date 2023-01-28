@@ -261,10 +261,10 @@ export const dataArray= [
         startDate: '09/30/2013',
         department: 'Human Resources',
         dateOfBirth: '09/25/1975',
-        street: '1201 Elm St',
-        city: 'Nowhere',
-        state: 'NY',
-        zipCode: '00000'
+        street: '264 Florida Ave',
+        city: 'Paterson',
+        state: 'NJ',
+        zipCode: '07503'
     },
     {
         firstName: 'Aiden',

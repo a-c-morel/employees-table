@@ -10,6 +10,9 @@ export default function PaginatedReactTable ({tableTitle, headersArray, dataArra
   const defaultSort = 0
   const defaultMaxPage = 1
   const defaultType = "alpha-order"
+  const defaultFirstEntry = 1
+  const defaultLastEntry = 10
+  const defaultEntriesLength = dataArray.length
   
   const [filteredData, setFilteredData] = useState(defaultData)
   const [userSelect, setUserSelect] = useState(defaultSelect)
@@ -18,9 +21,13 @@ export default function PaginatedReactTable ({tableTitle, headersArray, dataArra
   const [sortBy, setSortBy] = useState(defaultSort)
   const [maxPage, setMaxPage] = useState(defaultMaxPage)
   const [type, setType] = useState(defaultType)
+  const [firstEntry, setFirstEntry] = useState(defaultFirstEntry)
+  const [lastEntry, setLastEntry] = useState(defaultLastEntry)
+  const [entriesLength, setEntriesLength] = useState(defaultEntriesLength)
 
   const handlePerPageChange = (e) => {
-    setUserSelect(e.target.value)
+    const selectedValue = e.target.value
+    setUserSelect(selectedValue)
     setCurrentPage(1)
   }
 
@@ -37,7 +44,8 @@ export default function PaginatedReactTable ({tableTitle, headersArray, dataArra
   }
 
   const handleSearch = (e) => {
-    setSearchValue(e.target.value)
+    const selectedValue = e.target.value
+    setSearchValue(selectedValue)
     setCurrentPage(1)
   }
 
@@ -115,6 +123,23 @@ export default function PaginatedReactTable ({tableTitle, headersArray, dataArra
 
     let myFilteredData = filterBySearch(dataArray, searchValue)
 
+    const determineFirstEntry = (mySelect, myCurrentPage) => {
+      const calculateFirstEntry = ((myCurrentPage -1) * mySelect) +1
+      return calculateFirstEntry
+    }
+  
+    const determineLastEntry = (mySelect, myCurrentPage, myMaxEntry) => {
+      const calculateLastEntry = myCurrentPage * mySelect
+      if(calculateLastEntry > myMaxEntry) {
+        return myMaxEntry
+      }
+      return calculateLastEntry
+    }
+
+    setFirstEntry(() => determineFirstEntry(userSelect, currentPage))
+    setEntriesLength(myFilteredData.length)
+    setLastEntry(() => determineLastEntry(userSelect, currentPage, entriesLength))
+    
     myFilteredData = sortedByHeader(myFilteredData, sortBy, type)
 
     myMaxPage = determineMaxPage(myFilteredData.length, userSelect)
@@ -124,7 +149,7 @@ export default function PaginatedReactTable ({tableTitle, headersArray, dataArra
 
     setFilteredData(myFilteredData)
 
-  }, [dataArray, searchValue, currentPage, userSelect, sortBy, headersArray, type])
+  }, [dataArray, searchValue, currentPage, userSelect, sortBy, headersArray, type, entriesLength])
 
   return (
     <div className="paginated-react-table__container">
@@ -167,13 +192,19 @@ export default function PaginatedReactTable ({tableTitle, headersArray, dataArra
               )
             })}
           </tbody>
-          </table>
-          <div>
-        <button className="paginated-react-table__btn" onClick={handlePrevious}>Previous</button>
-        <span className="paginated-react-table__page-number">{currentPage}</span>
-        <button className="paginated-react-table__btn" onClick={handleNext}>Next</button>
+        </table>
+          <div className='pagination-container'>
+            <p>
+              Showing {firstEntry} to {lastEntry} of {entriesLength} entries
+            </p>
+            <div>
+              <button className='paginated-react-table__btn' onClick={handlePrevious}>Previous</button>
+                <span className='paginated-react-table__page-number'>{currentPage}</span>
+                <button className='paginated-react-table__btn' onClick={handleNext}>Next</button>
+            </div>
+          </div>
+          
       </div>
-    </div>
     </div>
   )
 }
