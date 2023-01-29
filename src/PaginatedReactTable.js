@@ -13,6 +13,7 @@ export default function PaginatedReactTable ({tableTitle, headersArray, dataArra
   const defaultFirstEntry = 1
   const defaultLastEntry = 10
   const defaultEntriesLength = dataArray.length
+  const defaultColumn = 0
   
   const [filteredData, setFilteredData] = useState(defaultData)
   const [userSelect, setUserSelect] = useState(defaultSelect)
@@ -24,6 +25,7 @@ export default function PaginatedReactTable ({tableTitle, headersArray, dataArra
   const [firstEntry, setFirstEntry] = useState(defaultFirstEntry)
   const [lastEntry, setLastEntry] = useState(defaultLastEntry)
   const [entriesLength, setEntriesLength] = useState(defaultEntriesLength)
+  const [column, setColumn] = useState(defaultColumn)
 
   const handlePerPageChange = (e) => {
     const selectedValue = e.target.value
@@ -47,6 +49,11 @@ export default function PaginatedReactTable ({tableTitle, headersArray, dataArra
     const selectedValue = e.target.value
     setSearchValue(selectedValue)
     setCurrentPage(1)
+  }
+
+  const handleColumnBackground = (myHeader) => {
+    const columnIndex = headersArray.indexOf(myHeader)
+    setColumn(columnIndex)
   }
 
   const handleSortByDown = (myHeader) => {
@@ -125,6 +132,15 @@ export default function PaginatedReactTable ({tableTitle, headersArray, dataArra
         }
     }
 
+    const selectColumn = (myColumn, myArray) => {
+      console.log(myColumn)
+      console.log(myArray)
+      let myCells = myArray.map(row => {
+        return Object.values(row)[myColumn]
+      })
+      return myCells
+    }
+
     const determineMaxPage = (myLength, mySelect) => {
       const myMaxPage = Math.ceil(myLength / mySelect)
       return myMaxPage
@@ -154,6 +170,8 @@ export default function PaginatedReactTable ({tableTitle, headersArray, dataArra
     
     myFilteredData = sortedByHeader(myFilteredData, sortBy, type)
 
+    selectColumn(column, myFilteredData)
+
     myMaxPage = determineMaxPage(myFilteredData.length, userSelect)
     setMaxPage(myMaxPage)
 
@@ -161,61 +179,62 @@ export default function PaginatedReactTable ({tableTitle, headersArray, dataArra
 
     setFilteredData(myFilteredData)
 
-  }, [dataArray, searchValue, currentPage, userSelect, sortBy, headersArray, type, entriesLength])
+  }, [dataArray, searchValue, currentPage, userSelect, sortBy, headersArray, type, entriesLength, column])
 
   return (
-    <div className="paginated-react-table__container">
-      <h1>{tableTitle}</h1>
-      <div className="paginated-react-table__table-wrapper">
-        <div className="paginated-react-table__options">
-          <div>
-            <label>Show
-                <select value={userSelect} onChange={handlePerPageChange}>
-                  <option value={10}>10</option>
-                  <option value={25}>25</option>
-                  <option value={50}>50</option>
-                  <option value={100}>100</option>
-                </select>
-              </label>
-              </div>
-            <div>
-            <label>Search:
-              <input type="search" value={searchValue} onChange={(e) => handleSearch(e)} className="" placeholder=""/>
+    <div className='paginated-react-table__container'>
+      <h1 className='paginated-react-table__title'>{tableTitle}</h1>
+      <div className='paginated-react-table__options'>
+        <div>
+          <label>Show
+              <select className='paginated-react-table__select' value={userSelect} onChange={handlePerPageChange}>
+                <option value={10}>10</option>
+                <option value={25}>25</option>
+                <option value={50}>50</option>
+                <option value={100}>100</option>
+              </select>
             </label>
-          </div>
-        </div>
-        <table>
-          <thead>
-            <tr>
-              {headersArray.map((header, index) => {
-                  return <th key={header + index}>{header}< FaRegArrowAltCircleDown onClick={() => handleSortByDown(header)} />< FaRegArrowAltCircleUp onClick={() => handleSortByUp(header)} /></th>
-                }
-              )}
-            </tr>
-          </thead>
-          <tbody>
-            {filteredData.map((data, index) => {
-              return (
-                <tr key={index}>
-                  {Object.keys(data).map((key, index) => {
-                    return <td key={index} className='cell'>{data[key]}</td>
-                  })}
-                </tr>
-              )
-            })}
-          </tbody>
-        </table>
-          <div className='pagination-container'>
-            <p>
-              Showing {firstEntry} to {lastEntry} of {entriesLength} entries
-            </p>
-            <div>
-              <button className='paginated-react-table__btn' onClick={handlePrevious}>Previous</button>
-              {pages}
-              <button className='paginated-react-table__btn' onClick={handleNext}>Next</button>
             </div>
-          </div>
-          
+          <div>
+          <label>Search:
+            <input  className='paginated-react-table__search' type="search" value={searchValue} onChange={(e) => handleSearch(e)}/>
+          </label>
+        </div>
+      </div>
+      <table className='paginated-react-table__table'>
+        <thead>
+          <tr className='paginated-react-table__headers'>
+            {headersArray.map((header, index) => {
+                return <th key={header + index} onClick={() => handleColumnBackground(header)}>{header} < FaRegArrowAltCircleDown className='paginated-react-table__sort-arrow paginated-react-table__sort-arrow--down' onClick={() => handleSortByDown(header)} />< FaRegArrowAltCircleUp className='paginated-react-table__sort-arrow' onClick={() => handleSortByUp(header)} /></th>
+              }
+            )}
+          </tr>
+        </thead>
+        <tbody>
+          {filteredData.map((data, index) => {
+            return (
+              <tr className="paginated-react-table__line" key={index}>
+                {Object.keys(data).map((key, index) => {
+                  return <td key={index} className={
+                    (column === index)
+                      ? 'paginated-react-table__cell--selected-column'
+                      : null
+                  }>{data[key]}</td>
+                })}
+              </tr>
+            )
+          })}
+        </tbody>
+      </table>
+      <div className='paginated-react-table__pagination'>
+        <p>
+          Showing {firstEntry} to {lastEntry} of {entriesLength} entries
+        </p>
+        <div>
+          <button className='paginated-react-table__btn' onClick={handlePrevious}>Previous</button>
+          {pages}
+          <button className='paginated-react-table__btn' onClick={handleNext}>Next</button>
+        </div>
       </div>
     </div>
   )

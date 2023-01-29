@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
 *,*:before,*:after {
     -webkit-box-sizing:border-box;
     box-sizing:border-box;
@@ -9,95 +11,106 @@
             user-select: none
 }
 
-.paginated-react-table__container {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-            flex-direction: column;
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;
+body {
+  background-color: rgba(41, 110, 194, 0.88);
+  font-family: 'Roboto', sans-serif;
 }
 
-.paginated-react-table__options {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-pack: justify;
-        -ms-flex-pack: justify;
-            justify-content: space-between;
+.paginated-react-table__container, .paginated-react-table__options, .paginated-react-table__pagination {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.paginated-react-table__container {
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 1.5rem;
+  margin: 2rem;
+  padding: 2rem;
+  background-color: rgba(252, 252, 252, 0.695);
+  border-radius: .5rem;
+  -webkit-box-shadow: 0px 35px 50px rgba( 0, 0, 0, 0.2 );
+          box-shadow: 0px 35px 50px rgba( 0, 0, 0, 0.2 )
+}
+
+.paginated-react-table__options, .paginated-react-table__pagination {
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.paginated-react-table__title {
+  -ms-flex-item-align: center;
+      align-self: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.paginated-react-table__table {
+  border-collapse: collapse
+}
+
+.paginated-react-table__select, .paginated-react-table__search {
+  margin-left: .75rem;
+}
+
+.paginated-react-table__headers {
+  background-color: rgba(0, 0, 0, 0.801);
+  color: rgb(255, 255, 255);
+}
+
+.paginated-react-table__sort-arrow {
+  font-size: .7rem;
+  cursor: pointer;
+}
+
+.paginated-react-table__sort-arrow--down {
+  margin-right: .4rem;
+  margin-left: 0.4rem;
+}
+
+.paginated-react-table__cell--selected-column {
+  background-color: #32496048;
+}
+
+th, td {
+  border: 1px solid #000000;
+  padding: 8px;
+  text-align: left;
+}
+
+tbody tr:nth-child(odd) {
+  background: #32496031;
+}
+
+.paginated-react-table__table, .paginated-react-table__options, .paginated-react-table__pagination  {
+  font-size: .85rem;
+}
+
+.paginated-react-table__btn {
+  background-color: #324960a9;
+  color: #fff;
+  border: 1px solid #324960;
+  border-radius: .3rem;
+  padding: .3rem;
+  -webkit-box-shadow: 0px 35px 50px rgba( 0, 0, 0, 0.2 );
+          box-shadow: 0px 35px 50px rgba( 0, 0, 0, 0.2 );
+  cursor: pointer;
 }
 
 .paginated-react-table__page-number, .paginated-react-table__page-number--current {
-  margin: 10px;
-  font-size: 16px;
+  margin-left: .5rem;
+  margin-right: 0.5rem;
+}
+
+.paginated-react-table__page-number {
   cursor: pointer;
 }
 
 .paginated-react-table__page-number--current {
   font-weight: bold;
+  text-decoration: underline;
 }
-
-.paginated-react-table__btn {
-    color: #93ad19;
-    background-color: #fff;
-    border: 2px solid #93ad19;
-    border-radius: 4px;
-    padding: 10px;
-    margin: 10px;
-    font-size: 16px;
-    cursor: pointer;
-}
-
-.paginated-react-table__btn:hover {
-    background-color: #93ad19;
-    color: #fff;
-}
-
-.paginated-react-table__container {
-    width: 100%;
-  }
-  
-  .paginated-react-table__table-wrapper {
-    overflow-x: auto;
-  }
-  
-  table {
-    border-collapse: collapse;
-    width: 100%;
-    color: black;
-  }
-  
-  th, td {
-    border: 1px solid #93ad19;
-    padding: 8px;
-    text-align: left;
-  }
-  
-  th {
-    background-color: #93ad19;
-    color: white;
-  }
-
-  tr:nth-child(even) {
-    background-color: #93ad19;
-  }
-  
-  tr:nth-child(odd) {
-    background-color: #b4d8b4;
-  }
-
-  .pagination-container {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-pack: justify;
-        -ms-flex-pack: justify;
-            justify-content: space-between;
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;
-  }
