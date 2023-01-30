@@ -1,6 +1,5 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import './index.css'
 import PaginatedReactTable from './PaginatedReactTable'
 import { headersArray, dataArray, tableTitle } from './mockData'
 
