@@ -1,21 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 
-*,*:before,*:after {
-    -webkit-box-sizing:border-box;
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
-}
-
-body {
-  background-color: rgba(41, 110, 194, 0.88);
-  font-family: 'Roboto', sans-serif;
-}
-
 .paginated-react-table__container, .paginated-react-table__options, .paginated-react-table__pagination {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  font-family: 'Roboto', sans-serif;
 }
 
 .paginated-react-table__container {
