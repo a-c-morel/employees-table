@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from 'react'
+import PropTypes from 'prop-types'
 import { FaRegArrowAltCircleDown, FaRegArrowAltCircleUp } from "react-icons/fa"
 
-export default function PaginatedReactTable ({tableTitle, headersArray, dataArray}) {
+/*
+ * This component is a data table. The user can select options to sort the table.
+ * 
+ */
+function PaginatedReactTable ({tableTitle, headersArray, dataArray}) {
 
   const defaultData = [...dataArray]
   const defaultSelect = 10
@@ -10,8 +15,8 @@ export default function PaginatedReactTable ({tableTitle, headersArray, dataArra
   const defaultSort = 0
   const defaultMaxPage = 1
   const defaultType = "alpha-order"
-  const defaultFirstEntry = 1
-  const defaultLastEntry = 10
+  const defaultFirstEntry = 0
+  const defaultLastEntry = 0
   const defaultEntriesLength = dataArray.length
   const defaultColumn = 0
   
@@ -74,9 +79,9 @@ export default function PaginatedReactTable ({tableTitle, headersArray, dataArra
   }
   for (let i = 1; i <= maxPage; i++) {
     if (currentPage === i) {
-      pages.push(<span className="paginated-react-table__page-number--current" onClick={() => handlePageClick(i)}>{currentPage}</span>);
+      pages.push(<span key={i} className="paginated-react-table__page-number--current" onClick={() => handlePageClick(i)}>{currentPage}</span>);
     } else {
-      pages.push(<span className="paginated-react-table__page-number" onClick={() => handlePageClick(i)}>{i}</span>);
+      pages.push(<span key={i} className="paginated-react-table__page-number" onClick={() => handlePageClick(i)}>{i}</span>);
     }
   }
   
@@ -133,8 +138,6 @@ export default function PaginatedReactTable ({tableTitle, headersArray, dataArra
     }
 
     const selectColumn = (myColumn, myArray) => {
-      console.log(myColumn)
-      console.log(myArray)
       let myCells = myArray.map(row => {
         return Object.values(row)[myColumn]
       })
@@ -205,7 +208,7 @@ export default function PaginatedReactTable ({tableTitle, headersArray, dataArra
         <thead>
           <tr className='paginated-react-table__headers'>
             {headersArray.map((header, index) => {
-                return <th key={header + index} onClick={() => handleColumnBackground(header)}>{header} < FaRegArrowAltCircleDown className='paginated-react-table__sort-arrow paginated-react-table__sort-arrow--down' onClick={() => handleSortByDown(header)} />< FaRegArrowAltCircleUp className='paginated-react-table__sort-arrow' onClick={() => handleSortByUp(header)} /></th>
+                return <th key={header + index} scope="col" onClick={() => handleColumnBackground(header)}>{header} < FaRegArrowAltCircleDown className='paginated-react-table__sort-arrow paginated-react-table__sort-arrow--down' onClick={() => handleSortByDown(header)} />< FaRegArrowAltCircleUp className='paginated-react-table__sort-arrow' onClick={() => handleSortByUp(header)} /></th>
               }
             )}
           </tr>
@@ -238,4 +241,12 @@ export default function PaginatedReactTable ({tableTitle, headersArray, dataArra
       </div>
     </div>
   )
+}
+
+export default PaginatedReactTable
+
+PaginatedReactTable.propTypes = {
+  tableTitle: PropTypes.string,
+  headersArray: PropTypes.array,
+  dataArray: PropTypes.array
 }
