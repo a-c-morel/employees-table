@@ -1,70 +1,96 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# paginated-react-table
 
-## Available Scripts
+A React component that returns a table with a search input, sortable columns and customizable results per page.
 
-In the project directory, you can run:
 
-### `npm start`
+## Installation
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Install my-project with npm
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+```bash
+  npm install paginated-react-table
+```
+    
+## Usage/Examples
 
-### `npm test`
+```javascript
+import PaginatedReactTable from 'paginated-react-table'
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+const tableTitle = "Current Employees"
+const headersArray = [
+  'First Name', 
+  'Last Name', 
+  'Start Date', 
+  'Department', 
+  'Date of Birth', 
+  'Street', 
+  'City', 
+  'State', 
+  'Zip Code'
+]
+const dataArray = [
+  {
+    firstName: 'Larry', 
+    lastName: 'Anderson', 
+    startDate: '05/01/2020', 
+    department: 'Human Resources', 
+    dateOfBirth: '12/03/2001', 
+    street: '4190 Woodside Circle', 
+    city: 'Quincy', 
+    state: 'FL', 
+    zipCode: '32351'
+  }, 
+  {
+    firstName: 'Simon', 
+    lastName: 'Hornbeck', 
+    startDate: '01/01/2018', 
+    department: 'Legal', 
+    dateOfBirth: '07/16/1999', 
+    street: '3171 Cerullo Road', 
+    city: 'Louisville', 
+    state: 'KY', 
+    zipCode: '40244'
+  }, 
+  { 
+    firstName: 'Ashley', 
+    lastName: 'Jones', 
+    startDate: '09/14/2016', 
+    department: 'Sales', 
+    dateOfBirth: '09/03/1999', 
+    street: '3931 Saints Alley', 
+    city: 'Tampa', 
+    state: 'FL', 
+    zipCode: '33602'
+  }
+]
 
-### `npm run build`
+const App = () => {
+  return (
+    <PaginatedReactTable
+      tableTitle={tableTitle}
+      headersArray={headersArray}
+      dataArray={dataArray}
+    />
+  )
+}
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+export default App
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Props
 
-### `npm run eject`
+| Prop | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `tableTitle` | `string` | **Required**. Title of the table |
+| `headersArray` | `array of str` | **Required**. Array of strings that represents the headers of the table |
+| `dataArray` | `array of str` | **Required**. Array of objects that represents the data of the table, each object should have keys that match the header names |
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Node version
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+This package requires Node.js version 16.16.0 or later.
+## License
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+[MIT](https://choosealicense.com/licenses/mit/)
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)

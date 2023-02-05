@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import PaginatedReactTable from './PaginatedReactTable'
-import { headersArray, dataArray, tableTitle } from './mockData'
+import PaginatedReactTable from './lib/PaginatedReactTable'
+import { headersArray, dataArray, tableTitle } from './lib/mockData'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
