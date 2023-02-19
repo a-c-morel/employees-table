@@ -70,6 +70,9 @@
   padding: 8px;
   text-align: left;
 }
+.paginated-react-table__cell--no-data {
+  text-align: center;
+}
 
 .paginated-react-table__header {
   white-space:nowrap
@@ -83,6 +86,14 @@
 .paginated-react-table__options,
 .paginated-react-table__pagination  {
   font-size: .85rem;
+}
+
+.paginated-react-table__btns {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 1rem;
+  color: #324960
 }
 
 .paginated-react-table__btn {
