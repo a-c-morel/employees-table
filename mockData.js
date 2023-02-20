@@ -12,7 +12,7 @@ export const headersArray= [
     'Zip Code'
 ]
 
-export const dataArray= [
+export const dataArray= null /*[
     {
         firstName: 'Larry',
         lastName: 'Anderson',
@@ -1058,4 +1058,4 @@ export const dataArray= [
         state: 'TX',
         zipCode: '79927'
     }
-]
+]*/

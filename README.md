@@ -65,6 +65,13 @@ const dataArray = [
   }
 ]
 
+/*
+N.B. : If you want to display a table with no data at initialization,
+you can initialize with `dataArray = null` :
+It will display 'No data available in table' inside the tbody,
+and will disable the options (buttons, searchbar, select,...). 
+*/
+
 const App = () => {
   return (
     <PaginatedReactTable
@@ -85,7 +92,7 @@ export default App
 | :-------- | :------- | :------------------------- |
 | `tableTitle` | `string` | **Required**. Title of the table |
 | `headersArray` | `array of str` | **Required**. Array of strings that represents the headers of the table |
-| `dataArray` | `array of str` | **Required**. Array of objects that represents the data of the table, each object should have keys that match the header names |
+| `dataArray` | `array of str` | **Required**. Array of objects that represents the data of the table, each object might have keys that match the header names. If you don't have any data yet, initialise the array with `null`. |
 
 ## Node version
 
