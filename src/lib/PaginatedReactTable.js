@@ -334,12 +334,13 @@ function PaginatedReactTable({ tableTitle, headersArray, dataArray }) {
                 </select>
 	    </div>
             <div>
-                <label>
+                <label htmlFor='Search'>
                     Search:
                 </label>
                 <input
                     className='paginated-react-table__search'
                     type='text'
+                    id='Search'
                 />
             </div>
 	</div>
