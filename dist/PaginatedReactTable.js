@@ -354,9 +354,12 @@ function PaginatedReactTable(_ref) {
     value: 50
   }, "50"), /*#__PURE__*/_react.default.createElement("option", {
     value: 100
-  }, "100"))), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("label", null, "Search:"), /*#__PURE__*/_react.default.createElement("input", {
+  }, "100"))), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("label", {
+    htmlFor: "Search"
+  }, "Search:"), /*#__PURE__*/_react.default.createElement("input", {
     className: "paginated-react-table__search",
-    type: "text"
+    type: "text",
+    id: "Search"
   }))), /*#__PURE__*/_react.default.createElement("table", {
     className: "paginated-react-table__table"
   }, /*#__PURE__*/_react.default.createElement("thead", null, /*#__PURE__*/_react.default.createElement("tr", {

@@ -10,4 +10,7 @@ Object.defineProperty(exports, "PaginatedReactTable", {
     return _PaginatedReactTable.default;
   }
 });
+exports.default = void 0;
 var _PaginatedReactTable = _interopRequireDefault(require("./PaginatedReactTable"));
+var _default = _PaginatedReactTable.default;
+exports.default = _default;
