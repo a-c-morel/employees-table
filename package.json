@@ -54,5 +54,16 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/a-c-morel/employees-table.git"
-  }
+  },
+  "keywords": [
+    "react",
+    "table",
+    "pagination",
+    "component",
+    "react-table",
+    "react-component",
+    "data-table",
+    "sorting",
+    "filter"
+  ]
 }
